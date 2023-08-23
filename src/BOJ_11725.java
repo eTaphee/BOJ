@@ -4,41 +4,46 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class BOJ_11725 {
-    public static boolean dfs(ArrayList<Integer>[] list, HashSet<Integer> visited, int[] arr, int num) {
-        if (!visited.add(num)) {
-            return false;
-        }
-        for (int a : list[num]) {
-            if (dfs(list, visited, arr, a)) {
-                arr[a] = num;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int N = 0;
+    static LinkedList<Integer>[] graph;
+    static int[] parents;
+    static boolean[] visited;
+
+    public static void dfs(int num) {
+        visited[num] = true;
+        for (int v : graph[num]) {
+            if (!visited[v]) {
+                parents[v] = num;
+                dfs(v);
             }
         }
-        return true;
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int N = Integer.parseInt(br.readLine());
-        ArrayList<Integer>[] list = new ArrayList[N + 1];
-        for (int i = 0; i < list.length; i++) {
-            list[i] = new ArrayList<>();
-        }
-
+        N = Integer.parseInt(br.readLine());
+        parents = new int[N + 1];
+        visited = new boolean[N + 1];
+        graph = new LinkedList[N + 1];
         for (int i = 0; i < N - 1; i++) {
             String[] lines = br.readLine().split(" ");
-            int data1 = Integer.parseInt(lines[0]);
-            int data2 = Integer.parseInt(lines[1]);
-            list[data1].add(data2);
-            list[data2].add(data1);
+            int a = Integer.parseInt(lines[0]);
+            int b = Integer.parseInt(lines[1]);
+            if (graph[a] == null) {
+                graph[a] = new LinkedList<>();
+            }
+            if (graph[b] == null) {
+                graph[b] = new LinkedList<>();
+            }
+            graph[a].add(b);
+            graph[b].add(a);
         }
 
-        int[] arr = new int[N + 1];
-        HashSet<Integer> visited = new HashSet<>();
-        dfs(list, visited, arr, 1);
+        dfs(1);
 
-        for (int i = 2; i < arr.length; i++) {
-            System.out.println(arr[i]);
+        for (int i = 2; i < parents.length; i++) {
+            System.out.println(parents[i]);
         }
+
     }
 }

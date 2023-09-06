@@ -9,10 +9,8 @@ public class BOJ_1546 {
         int N = Integer.parseInt(br.readLine());
         int[] arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
         int M = Arrays.stream(arr).max().getAsInt();
-        double sum = 0;
-        for (int score : arr) {
-            sum += (score / (double) M) * 100;
-        }
-        System.out.println(sum / N);
+        int sum = Arrays.stream(arr).sum();
+        double avg = sum / (double)M * 100 / (double)N;
+        System.out.println(avg);
     }
 }

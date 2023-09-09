@@ -23,10 +23,12 @@ public class BOJ_1929 {
             }
         }
 
+        StringBuffer sb = new StringBuffer();
         for (int i = start; i <= end; i++) {
             if (arr[i]) {
-                System.out.println(i);
+                sb.append(i).append("\n");
             }
         }
+        System.out.println(sb);
     }
 }
